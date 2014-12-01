@@ -1,0 +1,62 @@
+.snakem_webform {
+    margin: auto;
+    text-align:center;
+    margin-top: 12px ;
+    margin-bottom: 8px;
+}
+
+.red{
+    background-color: #f90 !important;
+    background-image: none !important;
+    border-radius: 3px;
+    box-shadow: 0 0 2px #ccc;
+    color: #fff;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 1em 1.3em;
+    text-decoration: none;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    display:block;
+}
+.red:hover{
+    background-color: #f60 !important;
+    box-shadow:none;
+
+
+}
+
+.snakem_webform button{
+    background-color: #f90;
+    border-radius: 3px;
+    box-shadow: 0 0 2px #ccc;
+    color: #fff;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 1em 1.3em;
+    text-decoration: none;
+    margin-top: 16px;
+    margin-bottom: 12px;
+}
+
+.snakem_webform button:hover{
+    background-color: #f60 !important;
+    box-shadow:none;
+
+
+}
+
+.snakem_webform input[type="text"]{
+
+    font-size: 1.2em;
+    margin: 8px 0;
+
+    width:320px;
+    height: 1.3em;
+
+
+}
+
+.snakem_webform .row{
+    margin:0 !important;
+}

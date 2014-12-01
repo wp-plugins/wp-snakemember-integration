@@ -1,0 +1,7 @@
+#adminmenu .toplevel_page_snakemember .wp-menu-image img{
+  padding: 7px 0 0 2px;
+}
+
+.spinner.sm_product_spinner, .spinner.sm_promo_spinner{
+  margin-top: 0;
+}

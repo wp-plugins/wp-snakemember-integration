@@ -1,0 +1,147 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Snakemember\n"
+"POT-Creation-Date: 2014-11-24 16:02+0100\n"
+"PO-Revision-Date: 2014-11-24 16:02+0100\n"
+"Last-Translator: Rubén Trujillo <rubentrf@gmail.com>\n"
+"Language-Team: Innova Experience <info@snakemember.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.10\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../admin/main_options_view.php:5
+msgid "WP Snakemember | Global Options"
+msgstr ""
+
+#: ../admin/main_options_view.php:13
+msgid "API User"
+msgstr ""
+
+#: ../admin/main_options_view.php:17
+msgid "This is the API user of your main business"
+msgstr ""
+
+#: ../admin/main_options_view.php:23
+msgid "API Key"
+msgstr ""
+
+#: ../admin/main_options_view.php:27
+msgid "This is the API key of your main business"
+msgstr ""
+
+#: ../admin/main_options_view.php:38
+msgid "Load items from SnakeMember"
+msgstr ""
+
+#: ../admin/main_options_view.php:45
+msgid "Product"
+msgstr ""
+
+#: ../admin/main_options_view.php:49
+msgid "Click \"Load items...\" above to display products"
+msgstr ""
+
+#: ../admin/main_options_view.php:57
+msgid "Affiliate Promo"
+msgstr ""
+
+#: ../admin/main_options_view.php:61
+msgid "Click \"Load items...\" above to display promos"
+msgstr ""
+
+#: ../admin/main_options_view.php:63
+msgid "This promo will be used to track the affiliate optins"
+msgstr ""
+
+#: ../admin/main_options_view.php:70
+msgid "Amazon S3 Account Credentials"
+msgstr ""
+
+#: ../admin/main_options_view.php:77
+msgid "S3 API Key"
+msgstr ""
+
+#: ../admin/main_options_view.php:86
+msgid "S3 API Secret"
+msgstr ""
+
+#: ../admin/main_options_view.php:95
+#, php-format
+msgid ""
+"If you've any doubts, check the <a href=\"%s\" target=\"_blank\">Amazon S3 "
+"FAQs</a>"
+msgstr ""
+
+#: ../campaigns/widget.php:7
+msgid "Form for SnakeMember Campaigns"
+msgstr ""
+
+#: ../campaigns/widget.php:8 ../campaigns/widget.php:16
+msgid "SnakeMember Campaigns Form"
+msgstr ""
+
+#: ../campaigns/widget.php:123
+msgid "Il widget visualizza il form SnakeMember"
+msgstr ""
+
+#: ../campaigns/widget.php:126
+msgid "Copy del Form: ( incolla qui il tuo codice html ) "
+msgstr ""
+
+#: ../campaigns/widget.php:131
+msgid "SnakeMember URI: "
+msgstr ""
+
+#: ../campaigns/widget.php:134
+msgid "API User: "
+msgstr ""
+
+#: ../campaigns/widget.php:137
+msgid "API Key: "
+msgstr ""
+
+#: ../campaigns/widget.php:139
+msgid "Carica liste"
+msgstr ""
+
+#: ../campaigns/widget.php:142
+msgid "Nome lista: "
+msgstr ""
+
+#: ../campaigns/widget.php:144
+msgid "Press the load button"
+msgstr ""
+
+#: ../campaigns/widget.php:150
+msgid "Redirect: "
+msgstr ""
+
+#: ../campaigns/widget.php:153
+msgid "Redirect (on list): "
+msgstr ""
+
+#: ../campaigns/widget.php:157
+msgid "Campi del form: "
+msgstr ""
+
+#: ../campaigns/widget.php:172
+msgid "Testo Bottone: "
+msgstr ""
+
+#: ../campaigns/widget.php:176
+msgid ""
+"Vuoi attivare una checkbox per accettare la normativa sulla privacy? Devi "
+"aver creato una pagina privacy. (facoltativo)"
+msgstr ""
+
+#: ../campaigns/widget.php:179
+msgid "Informativa sulla privacy (facoltativo): "
+msgstr ""
