@@ -20,8 +20,8 @@ require_once realpath(dirname(__FILE__)) . "/campaigns/campaigns.php";
 require_once realpath(dirname(__FILE__)) . "/xmlrpc/functions.php";
 require_once realpath(dirname(__FILE__)) . "/permissions/functions_permissions.php";
 // Admin area
-require_once realpath(dirname(__FILE__)) . "/admin_area/view.php";
-require_once realpath(dirname(__FILE__)) . "/admin_area/ajax.php";
+require_once realpath(dirname(__FILE__)) . "/area_adm/view.php";
+require_once realpath(dirname(__FILE__)) . "/area_adm/ajax.php";
 // Secure downloads
 require_once realpath(dirname(__FILE__)) . "/secure_downloads/functions.php";
 
