@@ -62,7 +62,7 @@ function wp_sm_filter_protected_pages($content){
     add_filter('the_content', 'wp_sm_void_filter_protected_pages');
   }
   
-  return $content;
+  return do_shortcode($content);
   
 }
 
