@@ -3,7 +3,7 @@ Contributors: snakemember
 Tags: integration, xmlrpc, snakemember, marketing
 Requires at least: 3.8.0
 Tested up to: 4.0.1
-Stable tag: 1.1
+Stable tag: 1.1.2
 
 Wordpress integration plugin for SnakeMember
 
@@ -18,6 +18,12 @@ This plugin allows you to integrate your Wordpress installation with your curren
 1. Configure the API credentials on the 'Snakemember' menu.
 
 == Changelog ==
+
+= 1.1.2 = 
+* Fixed typo on autolog
+
+= 1.1.1 = 
+* Fixed shorttags
 
 = 1.1 =
 * Added configuration page.

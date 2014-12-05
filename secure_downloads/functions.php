@@ -61,10 +61,11 @@ function wp_sm_get_secure_s3_url($hash, $as_attachment = false){
 }
 
 function wp_sm_secure_s3_link( $atts, $content = "" ) {
+
 	$atts = shortcode_atts( array(
 		'url' => '',
 		'css_class' => ''
-	), $atts, 'sm_s3_secure_download' );
+	), $atts, 's3_secure_download' );
 
   $base64_url = base64_encode($atts['url']);
   $css_class = $atts['css_class'];
@@ -87,7 +88,7 @@ function wp_sm_secure_s3_link( $atts, $content = "" ) {
 function wp_sm_secure_s3_video( $atts ) {
 	$atts = shortcode_atts( array(
 		'url' => ''
-	), $atts, 'sm_s3_secure_video' );
+	), $atts, 's3_secure_video' );
   
   $base64_url = base64_encode($atts['url']);
   
@@ -95,14 +96,4 @@ function wp_sm_secure_s3_video( $atts ) {
 
   return do_shortcode("[video src=\"$secure_url\" ]");
   
-}
-
-add_action('init', 'wp_sm_add_s3_shortcodes');
-
-function wp_sm_add_s3_shortcodes() {
-  remove_shortcode('sm_s3_secure_download');
-  remove_shortcode('sm_s3_secure_video');
-  
-  add_shortcode( 'sm_s3_secure_download', 'wp_sm_secure_s3_link' );
-  add_shortcode( 'sm_s3_secure_video', 'wp_sm_secure_s3_video' );
 }
