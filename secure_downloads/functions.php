@@ -27,34 +27,41 @@ function wp_sm_secure_downloads_parse_request( &$wp )
 
 function wp_sm_get_secure_s3_url($hash, $as_attachment = false){
   $url = base64_decode($hash);
+  
+  if(strpos($url,'amazonaws.com') !== false){
+    // This is an Amazon S3 URL
+    
+    //$clean_url=$url;
+    $to_remove="/https?:\/\/s3.*?\.amazonaws.com\//";
+    $to_remove_normal_urls=array("/https?:\/\//", "/\.s3\.amazonaws\.com/");
 
-  //$clean_url=$url;
-  $to_remove="/https?:\/\/s3.*?\.amazonaws.com\//";
-  $to_remove_normal_urls=array("/https?:\/\//", "/\.s3\.amazonaws\.com/");
-
-  //quito subtring de la url
-  $clean_url = preg_replace($to_remove, "", $url);
-  //die(serialize($clean_url));
-  $clean_url = preg_replace($to_remove_normal_urls, "", $clean_url); 
+    //quito subtring de la url
+    $clean_url = preg_replace($to_remove, "", $url);
+    //die(serialize($clean_url));
+    $clean_url = preg_replace($to_remove_normal_urls, "", $clean_url); 
  
-  $accessKey = get_option('sm_s3_api_key');
-  $secretKey = get_option('sm_s3_api_secret');
+    $accessKey = get_option('sm_s3_api_key');
+    $secretKey = get_option('sm_s3_api_secret');
 
-  $expiry_time = get_option('sm_s3_expiry_time') ? get_option('sm_s3_expiry_time') : '+2 days';
+    $expiry_time = get_option('sm_s3_expiry_time') ? get_option('sm_s3_expiry_time') : '+2 days';
 
-  $timestamp = strtotime($expiry_time);
-  $strtosign = "GET\n\n\n$timestamp\n/$clean_url";
+    $timestamp = strtotime($expiry_time);
+    $strtosign = "GET\n\n\n$timestamp\n/$clean_url";
   
-  if($as_attachment){
-    $strtosign = $strtosign."?response-content-disposition=attachment";
-  }
+    if($as_attachment){
+      $strtosign = $strtosign."?response-content-disposition=attachment";
+    }
 
-  $signature = urlencode(base64_encode(hash_hmac("sha1", utf8_encode($strtosign), $secretKey, true)));
+    $signature = urlencode(base64_encode(hash_hmac("sha1", utf8_encode($strtosign), $secretKey, true)));
 
-  $destination_url = "$url?AWSAccessKeyId=$accessKey&Expires=$timestamp&Signature=$signature";
+    $destination_url = "$url?AWSAccessKeyId=$accessKey&Expires=$timestamp&Signature=$signature";
   
-  if($as_attachment){
-    $destination_url = $destination_url."&response-content-disposition=attachment";
+    if($as_attachment){
+      $destination_url = $destination_url."&response-content-disposition=attachment";
+    }
+  } else {
+    // This is an internal or "regular" URL
+    $destination_url = $url;
   }
   
   return $destination_url;

@@ -5,7 +5,7 @@ Plugin URI: http://snakemember.com/
 Description: Wordpress integration plugin for SnakeMember
 Author: Michele Cumer
 Author URI: http://www.snakemember.com
-Version: 1.1.2
+Version: 1.2
 */
 
 // WP Activerecord
@@ -84,6 +84,7 @@ add_filter( 'manage_pages_columns', 'wp_sm_modify_pages_table' );
 add_action( 'manage_pages_custom_column', 'wp_sm_modify_pages_table_row', 10, 2 );
 
 add_filter('the_content', 'wp_sm_filter_protected_pages');
+add_filter('template_redirect', 'wp_sm_filter_protected_pages_redirect');
 
 # Register "wp_sm_autolog" URL
 add_action( 'init', 'wp_sm_autolog_init' );
