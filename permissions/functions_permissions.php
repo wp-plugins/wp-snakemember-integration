@@ -53,16 +53,31 @@ function wp_sm_user_has_access($object_id, $object_class, $user_id){
 function wp_sm_filter_protected_pages($content){
   global $wpdb, $current_user, $post;
   get_currentuserinfo();
-
-  $user_id = $current_user->id;
-
-  if(! wp_sm_user_has_access($post->ID, 'page', $user_id)){
-    $content = "Non hai accesso a questo contenuto";
-    remove_filter('the_content', 'wp_sm_filter_protected_pages');
-    add_filter('the_content', 'wp_sm_void_filter_protected_pages');
-  }
   
-  return $content;
+  if(!wp_sm_prot_use_redirect()){
+    $user_id = $current_user->id;
+
+    if(! wp_sm_user_has_access($post->ID, 'page', $user_id)){
+      $content = "Non hai accesso a questo contenuto";
+      remove_filter('the_content', 'wp_sm_filter_protected_pages');
+      add_filter('the_content', 'wp_sm_void_filter_protected_pages');
+    }
+  } 
+  
+  return do_shortcode($content);
+}
+
+function wp_sm_filter_protected_pages_redirect($args){
+  global $wpdb, $current_user, $post;
+  get_currentuserinfo();
+  
+  if($redir_url = wp_sm_prot_use_redirect()){
+    $user_id = $current_user->ID;
+
+    if(! wp_sm_user_has_access($post->ID, 'page', $user_id)){
+      wp_redirect( $redir_url ); exit;
+    }
+  }
   
 }
 
@@ -93,4 +108,20 @@ function wp_sm_autolog_parse_request( &$wp )
         include( realpath(dirname( __FILE__ ) ) . '/../autolog.php' );
         exit();
     }
+}
+
+/** 
+  @brief Check if is selected the protected redirect instead of content filtering
+  @returns false: if content filtering
+           the redirect URL: if redirect protection 
+**/
+function wp_sm_prot_use_redirect(){
+  $redir_option = get_option('sm_prot_redir');
+  $redir_option_url = get_option('sm_prot_redir_url');
+  
+  if($redir_option && $redir_option_url && $redir_option_url != ''){
+    return $redir_option_url;
+  } else {
+    return false;
+  }
 }
