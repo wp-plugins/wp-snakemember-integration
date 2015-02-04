@@ -94,6 +94,28 @@
       		<th scope="row"></th>
           <td><p class="description"><?php echo sprintf(__('If you\'ve any doubts, check the <a href="%s" target="_blank">Amazon S3 FAQs</a>', 'wp-sm'), 'http://aws.amazon.com/s3/faqs/') ?></p></td>
         </tr>
+        
+        
+        
+        <tr valign="top">
+      		<th scope="row" colspan="2">
+      			<h3><?php _e('Content protection mode', 'wp-sm') ?></h3>
+          </th>
+            
+      	</tr>
+        
+        <tr valign="top">
+      		<th scope="row"><?php _e('Protection mode', 'wp-sm') ?>
+          </th>
+      		<td>
+      			<label>
+      				<input type="radio" name="sm_prot_redir" value="0" <?php if(!wp_sm_prot_use_redirect()){ ?>checked<?php } ?> /> <?php _e('Use content filtering protection', 'wp-sm') ?> <br/><br/>
+              <input type="radio" name="sm_prot_redir" value="1" <?php if(wp_sm_prot_use_redirect()){ ?>checked<?php } ?> /> <?php _e('Use redirect protection', 'wp-sm') ?> <br/><br/>
+              <input type="url" name="sm_prot_redir_url" value="<?php echo esc_attr( get_option('sm_prot_redir_url') ); ?>" size="57" />
+              <p class="description"><?php _e('Users with no permission will be redirected to this URL', 'wp-sm') ?></p>
+      			</label>
+      		</td>
+      	</tr>
   	
       </tbody>
     </table>
