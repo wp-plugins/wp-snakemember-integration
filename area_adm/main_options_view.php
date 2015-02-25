@@ -109,8 +109,9 @@
           </th>
       		<td>
       			<label>
-      				<input type="radio" name="sm_prot_redir" value="0" <?php if(!wp_sm_prot_use_redirect()){ ?>checked<?php } ?> /> <?php _e('Use content filtering protection', 'wp-sm') ?> <br/><br/>
-              <input type="radio" name="sm_prot_redir" value="1" <?php if(wp_sm_prot_use_redirect()){ ?>checked<?php } ?> /> <?php _e('Use redirect protection', 'wp-sm') ?> <br/><br/>
+              <input type="radio" name="sm_prot_redir" value="-1" <?php if(wp_sm_no_protection()){ ?>checked<?php } ?> /> <?php _e('Disable protection', 'wp-sm') ?> <br/><br/>
+      				<input type="radio" name="sm_prot_redir" value="0" <?php if(!wp_sm_no_protection() && !wp_sm_prot_use_redirect()){ ?>checked<?php } ?> /> <?php _e('Use content filtering protection', 'wp-sm') ?> <br/><br/>
+              <input type="radio" name="sm_prot_redir" value="1" <?php if(!wp_sm_no_protection() && wp_sm_prot_use_redirect()){ ?>checked<?php } ?> /> <?php _e('Use redirect protection', 'wp-sm') ?> <br/><br/>
               <input type="url" name="sm_prot_redir_url" value="<?php echo esc_attr( get_option('sm_prot_redir_url') ); ?>" size="57" />
               <p class="description"><?php _e('Users with no permission will be redirected to this URL', 'wp-sm') ?></p>
       			</label>

@@ -21,6 +21,10 @@ function wp_sm_modify_pages_table_row( $column_name, $page_id ) {
 function wp_sm_object_is_protected($object_id, $object_class){
   $protected = false;
   
+  if(wp_sm_no_protection()){
+    return false;
+  }
+  
   switch ($object_class) {
       case 'page' :
         $protected = get_post_meta($object_id, "wp_sm_protected", true);
@@ -34,7 +38,7 @@ function wp_sm_object_is_protected($object_id, $object_class){
 }
 
 function wp_sm_user_has_access($object_id, $object_class, $user_id){
-  if(!wp_sm_object_is_protected($object_id, $object_class) || current_user_can('manage_options')){
+  if(!wp_sm_object_is_protected($object_id, $object_class) || current_user_can('manage_options') || wp_sm_no_protection()){
     return true;
   } else {
     
@@ -54,7 +58,7 @@ function wp_sm_filter_protected_pages($content){
   global $wpdb, $current_user, $post;
   get_currentuserinfo();
   
-  if(!wp_sm_prot_use_redirect()){
+  if(!wp_sm_prot_use_redirect() && !wp_sm_no_protection()){
     $user_id = $current_user->id;
 
     if(! wp_sm_user_has_access($post->ID, 'page', $user_id)){
@@ -119,8 +123,21 @@ function wp_sm_prot_use_redirect(){
   $redir_option = get_option('sm_prot_redir');
   $redir_option_url = get_option('sm_prot_redir_url');
   
-  if($redir_option && $redir_option_url && $redir_option_url != ''){
+  if(! wp_sm_no_protection() && $redir_option && $redir_option_url && $redir_option_url != ''){
     return $redir_option_url;
+  } else {
+    return false;
+  }
+}
+
+/**
+  @brief Check if !protection is selected
+**/
+function wp_sm_no_protection(){
+  $redir_option = get_option('sm_prot_redir');
+  
+  if($redir_option == -1){
+    return true;
   } else {
     return false;
   }
