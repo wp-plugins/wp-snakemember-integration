@@ -21,6 +21,10 @@ function wp_sm_modify_pages_table_row( $column_name, $page_id ) {
 function wp_sm_object_is_protected($object_id, $object_class){
   $protected = false;
   
+  if(wp_sm_no_protection()){
+    return false;
+  }
+  
   switch ($object_class) {
       case 'page' :
         $protected = get_post_meta($object_id, "wp_sm_protected", true);
@@ -34,7 +38,7 @@ function wp_sm_object_is_protected($object_id, $object_class){
 }
 
 function wp_sm_user_has_access($object_id, $object_class, $user_id){
-  if(!wp_sm_object_is_protected($object_id, $object_class) || current_user_can('manage_options')){
+  if(!wp_sm_object_is_protected($object_id, $object_class) || current_user_can('manage_options') || wp_sm_no_protection()){
     return true;
   } else {
     
@@ -53,16 +57,31 @@ function wp_sm_user_has_access($object_id, $object_class, $user_id){
 function wp_sm_filter_protected_pages($content){
   global $wpdb, $current_user, $post;
   get_currentuserinfo();
-
-  $user_id = $current_user->id;
-
-  if(! wp_sm_user_has_access($post->ID, 'page', $user_id)){
-    $content = "Non hai accesso a questo contenuto";
-    remove_filter('the_content', 'wp_sm_filter_protected_pages');
-    add_filter('the_content', 'wp_sm_void_filter_protected_pages');
-  }
   
-  return $content;
+  if(!wp_sm_prot_use_redirect() && !wp_sm_no_protection()){
+    $user_id = $current_user->id;
+
+    if(! wp_sm_user_has_access($post->ID, 'page', $user_id)){
+      $content = "Non hai accesso a questo contenuto";
+      remove_filter('the_content', 'wp_sm_filter_protected_pages');
+      add_filter('the_content', 'wp_sm_void_filter_protected_pages');
+    }
+  } 
+  
+  return do_shortcode($content);
+}
+
+function wp_sm_filter_protected_pages_redirect($args){
+  global $wpdb, $current_user, $post;
+  get_currentuserinfo();
+  
+  if($redir_url = wp_sm_prot_use_redirect()){
+    $user_id = $current_user->ID;
+
+    if(! wp_sm_user_has_access($post->ID, 'page', $user_id)){
+      wp_redirect( $redir_url ); exit;
+    }
+  }
   
 }
 
@@ -93,4 +112,33 @@ function wp_sm_autolog_parse_request( &$wp )
         include( realpath(dirname( __FILE__ ) ) . '/../autolog.php' );
         exit();
     }
+}
+
+/** 
+  @brief Check if is selected the protected redirect instead of content filtering
+  @returns false: if content filtering
+           the redirect URL: if redirect protection 
+**/
+function wp_sm_prot_use_redirect(){
+  $redir_option = get_option('sm_prot_redir');
+  $redir_option_url = get_option('sm_prot_redir_url');
+  
+  if(! wp_sm_no_protection() && $redir_option && $redir_option_url && $redir_option_url != ''){
+    return $redir_option_url;
+  } else {
+    return false;
+  }
+}
+
+/**
+  @brief Check if !protection is selected
+**/
+function wp_sm_no_protection(){
+  $redir_option = get_option('sm_prot_redir');
+  
+  if($redir_option == -1){
+    return true;
+  } else {
+    return false;
+  }
 }
