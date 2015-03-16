@@ -91,6 +91,28 @@ function track_click_js(){
 
           jQuery(document).ready(function(){
               setTimeout(function(){_inntr.track("click", <?= $funnel ?>, '<?= get_aff_id(sm_get_default_aff_id()); ?>', '<?php get_camp_id(0); ?>', <?= $product ?>, '<?= $promo ?>')}, 600);
+              
+              // Replace & fill aff_ids
+              var aff_id = sm_get_aff_id();
+    
+              if(aff_id != ''){
+
+                jQuery('a[href*="areamembri.it"]').each(function(){
+                  var _href = jQuery(this).attr("href");
+                  var _appendchar = '?';
+
+                  if(_href.indexOf('?') != -1){
+                    // Contains parameter, append with &
+                    _appendchar = '&';
+                  }
+
+                  jQuery(this).attr("href", _href + _appendchar + "aff_id=" + aff_id);
+                });
+                
+                jQuery('form input[name=aff_id]').val(aff_id);
+                
+              }
+
           });
 
           sm_get_aff_id = function(){

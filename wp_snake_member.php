@@ -5,7 +5,7 @@ Plugin URI: http://snakemember.com/
 Description: Wordpress integration plugin for SnakeMember
 Author: Michele Cumer
 Author URI: http://www.snakemember.com
-Version: 1.3.1
+Version: 1.4
 */
 
 // WP Activerecord
@@ -95,6 +95,9 @@ add_action( 'parse_request', 'wp_sm_autolog_parse_request' );
 add_action( 'init', 'wp_sm_secure_downloads_init' );
 add_action( 'query_vars', 'wp_sm_secure_downloads_query_vars' );
 add_action( 'parse_request', 'wp_sm_secure_downloads_parse_request' );
+
+# Affiliate ID Management
+add_action('init', 'track_affiliate');
 
 function wp_sm_flush_rewrite() {
   wp_sm_autolog_init();
