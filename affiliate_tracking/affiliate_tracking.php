@@ -127,7 +127,7 @@ function track_click_js(){
           })();
 
           jQuery(document).ready(function(){
-              setTimeout(function(){_inntr.track("click", <?= $funnel ?>, '<?= get_aff_id(sm_get_default_aff_id()); ?>', '<?php get_camp_id(0); ?>', <?= $product ?>, '<?= $promo ?>')}, 600);
+              setTimeout(function(){_inntr.track("click", <?= $funnel ?>, '<?= get_aff_id(sm_get_default_aff_id()); ?>', '<?= get_camp_id(0); ?>', <?= $product ?>, '<?= $promo ?>')}, 600);
               
               // Replace & fill aff_ids
               var aff_id = sm_get_aff_id();
