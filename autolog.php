@@ -12,7 +12,7 @@ $user = get_user_by('email', $user_email);
 if(!is_wp_error($user)){
   
   $stored_session_id = get_user_meta($user->ID, "wp_sm_session_id", true);
-  echo $user->ID;
+
   if($stored_session_id == $session_id){
     // Session matches, allow access
     

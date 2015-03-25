@@ -5,7 +5,7 @@ require_once realpath(dirname(__FILE__)) . "/widget.php";
 require_once realpath(dirname(__FILE__)) . "/shortcodes.php";
 require_once realpath(dirname(__FILE__)) . "/webform.php";
 
-
+require_once realpath(dirname(__FILE__)) . "/integrations/optin_monster.php";
 
 
 if( !function_exists('snake_campaigns_register_widgets') )

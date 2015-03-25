@@ -20,6 +20,8 @@ function wp_sm_register_settings(){
     register_setting( 'wp-sm', 'sm_promo_nicename' );
   	register_setting( 'wp-sm', 'sm_s3_api_key' );
     register_setting( 'wp-sm', 'sm_s3_api_secret' );
+    register_setting( 'wp-sm', 'sm_prot_redir_url' );
+    register_setting( 'wp-sm', 'sm_prot_redir' );
 }
 
 function sm_admin_main_options(){
