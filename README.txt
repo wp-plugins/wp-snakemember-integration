@@ -2,8 +2,8 @@
 Contributors: snakemember
 Tags: integration, xmlrpc, snakemember, marketing
 Requires at least: 3.8.0
-Tested up to: 4.0.1
-Stable tag: 1.1
+Tested up to: 4.1.1
+Stable tag: 1.5.3.1
 
 Wordpress integration plugin for SnakeMember
 
@@ -18,6 +18,52 @@ This plugin allows you to integrate your Wordpress installation with your curren
 1. Configure the API credentials on the 'Snakemember' menu.
 
 == Changelog ==
+
+= 1.5.3.1 =
+* Minimal correction on campaign ID management.
+
+= 1.5.3 =
+* Better management for referer tracking.
+
+= 1.5.2 =
+* Promo tracking on optin forms.
+
+= 1.5.1 =
+* Small fix on camp_id tracking.
+
+= 1.5 =
+* Added better referer tracking.
+* Added campaign (camp_id) tracking.
+
+= 1.4.1 = 
+* Fixed the possibility to unprotect pages from SnakeMember.
+
+= 1.4 = 
+* Better affiliate ID management on forms and links.
+
+= 1.3.1 = 
+* Fixed unexisting file error.
+
+= 1.3 = 
+* Added new "No protection" option.
+* Optin Monster integration.
+* Minor fixes/optimizations.
+
+= 1.2.2 = 
+* Allow protected downloads only for logged users.
+
+= 1.2.1 = 
+* Increased redirect priority to solve incompatibilities with some themes/plugins.
+
+= 1.2 = 
+* New option: redirect if page is protected and user has no permission.
+* Hash-protected local downloads.
+
+= 1.1.2 = 
+* Fixed typo on autolog
+
+= 1.1.1 = 
+* Fixed shorttags
 
 = 1.1 =
 * Added configuration page.
