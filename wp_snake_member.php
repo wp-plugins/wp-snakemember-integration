@@ -5,7 +5,7 @@ Plugin URI: http://snakemember.com/
 Description: Wordpress integration plugin for SnakeMember
 Author: Michele Cumer
 Author URI: http://www.snakemember.com
-Version: 1.4
+Version: 1.5
 */
 
 // WP Activerecord
@@ -73,6 +73,7 @@ function sm_wp_xmlrpc_methods( $methods ) {
     $methods['SM.get_session'] = 'sm_wp_get_session';
     $methods['SM.create_user_with_access'] = 'sm_wp_create_user_with_access';
     $methods['SM.protect_object'] = 'sm_wp_protect_object';
+    $methods['SM.unprotect_object'] = 'sm_wp_unprotect_object';
     $methods['SM.ping'] = 'sm_wp_ping';
     return $methods;   
 }
