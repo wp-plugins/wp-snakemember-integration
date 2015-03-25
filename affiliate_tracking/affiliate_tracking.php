@@ -1,7 +1,7 @@
 <?php 
 
 function track_affiliate(){
-    if ( isset($_REQUEST["aff_id"])){
+    if ( isset($_REQUEST["aff_id"]) || isset($_REQUEST["camp_id"]) || isset($_SERVER['HTTP_REFERER']) ){
         save_cookies();
     }
 }
@@ -15,39 +15,54 @@ function save_cookies(){
     
     $old_aff_id = $_COOKIE["snakem_aff_id"];
     $old_camp_id = $_COOKIE["snakem_camp_id"];
-    /* NO ! ULTIMO COOKIE!!! */
-    if ($old_aff_id > 0){
-        // NON conservo il vecchio cookie!
-        //return;
-    }
+    $old_source_referer = $_COOKIE["snakem_source_referer"];
     
     $new_aff_id = $_REQUEST["aff_id"];
     $new_camp_id = $_REQUEST["camp_id"];
-
+    $new_source_referer = $_SERVER['HTTP_REFERER'];
+    
     $domain = get_option('siteurl'); //or home
-    $domain = str_replace('http://', '', $domain);
-    //echo "DOMAIN: " . $domain;
+    
+    $parsed_url = parse_url($domain);
+    
+    $domain_host = $parsed_url['host'];
+    $domain_path = $parsed_url['path'];
+    
+    if($domain_host == 'localhost'){
+      $domain_host = '';
+    }
+    
+    if( $domain_path == ''){
+      $domain_path = '/';
+    }
+    
+    $domain_path = '/';
+    
+    
     if ($new_aff_id != ""){
-        setcookie("snakem_aff_id",$new_aff_id,time()+60*60*24*360,"/",$domain);
-        setcookie("snakem_camp_id",$new_camp_id,time()+60*60*24*360,"/",$domain);
-
-        //$referer=@$HTTP_REFERER;
-    	//$ip = $_SERVER['REMOTE_ADDR'];
-        
-
+      setcookie("snakem_aff_id",$new_aff_id,time()+60*60*24*360,$domain_path,$domain_host);
+    }
+    
+    if( $new_camp_id != '' && $new_camp_id != 0 ){
+      setcookie("snakem_camp_id",$new_camp_id,time()+60*60*24*360,$domain_path,$domain_host);
+    }
+    
+    if( $new_source_referer != ''){
+      setcookie("snakem_source_referer",$new_source_referer,0,$domain_path,$domain_host);      
     }
     
 }
 
 
 function get_camp_id($default = ""){
-    $aff_id = $_REQUEST["camp_id"];
-    if ($aff_id != ""){
-        return $aff_id;
+    $camp_id = $_REQUEST["camp_id"];
+    if ($camp_id != "" && $camp_id != 0){
+        return $camp_id;
     }
-    $aff_id = $_COOKIE["snakem_camp_id"];
-    if ($aff_id != ""){
-        return $aff_id;
+    $camp_id = $_COOKIE["snakem_camp_id"];
+    if ($camp_id != "" && $camp_id != 0){
+      
+        return $camp_id;
     }
 
     return $default;
@@ -66,6 +81,28 @@ function get_aff_id($default = "CG00001"){
     
     return $default;
 
+}
+
+function get_source_referer($default = ""){
+    $source_referer = $_SERVER['HTTP_REFERER'];
+    if ($source_referer != ""){
+        return $source_referer;
+    }
+    $source_referer = $_COOKIE["snakem_source_referer"];
+    if ($source_referer != ""){
+        return $source_referer;
+    }
+
+    return $default;
+
+}
+
+function sm_available_domains(){
+  return array(
+    "areamembri.it",
+    "zonamiembros.com",
+    "zonamiembros.es"
+  );
 }
 
 function track_click_js(){
@@ -91,6 +128,65 @@ function track_click_js(){
 
           jQuery(document).ready(function(){
               setTimeout(function(){_inntr.track("click", <?= $funnel ?>, '<?= get_aff_id(sm_get_default_aff_id()); ?>', '<?php get_camp_id(0); ?>', <?= $product ?>, '<?= $promo ?>')}, 600);
+              
+              // Replace & fill aff_ids
+              var aff_id = sm_get_aff_id();
+
+              if(aff_id != ''){
+                
+                <?php foreach(sm_available_domains() as $av_dom){ ?>
+                  jQuery('a[href*="<?php echo $av_dom ?>"]').each(function(){
+                    var _href = jQuery(this).attr("href");
+                    var _appendchar = '?';
+
+                    if(_href.indexOf('?') != -1){
+                      // Contains parameter, append with &
+                      _appendchar = '&';
+                    }
+
+                    jQuery(this).attr("href", _href + _appendchar + "aff_id=" + aff_id);
+                  });
+                <?php } ?>
+                
+                if(aff_id != '' && typeof(aff_id) != 'undefined'){ 
+                  //jQuery('form[action*="areamembri.it"] input[name=aff_id]').val(aff_id);
+                }
+                
+              }
+              
+              // Inyectar y rellenar el camp_id y source_referer
+              var camp_id = sm_get_camp_id();
+              
+              if(camp_id != ''){
+                <?php foreach(sm_available_domains() as $av_dom){ ?>
+                  jQuery('form[action*="<?php echo $av_dom ?>"]').each(function(indx){
+                    if( jQuery(this).find('input[name=camp_id]').length > 0 ){
+                      jQuery(this).find('input[name=camp_id]').val(camp_id)
+                    } else {
+                      var new_imp = jQuery('<input>').attr('type','hidden').attr('name', 'camp_id').val(camp_id)
+                      jQuery(this).append(new_imp);
+                    }
+                  })
+                <?php } ?>
+              }
+              
+              var source_referer = sm_get_source_referer();
+              
+              if(source_referer != ''){
+                
+                <?php foreach(sm_available_domains() as $av_dom){ ?>
+                  jQuery('form[action*="<?php echo $av_dom ?>"]').each(function(indx){
+                    if( jQuery(this).find('input[name=source_referer]').length > 0 ){
+                      jQuery(this).find('input[name=source_referer]').val(source_referer)
+                    } else {
+                      console.log("entra")
+                      var new_imp = jQuery('<input>').attr('type','hidden').attr('name', 'source_referer').val(source_referer)
+                      jQuery(this).append(new_imp);
+                    }
+                  })
+                <?php } ?>
+              }
+
           });
 
           sm_get_aff_id = function(){
@@ -98,6 +194,9 @@ function track_click_js(){
           }
           sm_get_camp_id = function(){
               return '<?= get_camp_id(0);?>';
+          }
+          sm_get_source_referer = function(){
+              return '<?= get_source_referer('');?>';
           }
           sm_get_product_id = function(){
             return '<?= $product ?>';
