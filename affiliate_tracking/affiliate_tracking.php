@@ -154,7 +154,7 @@ function track_click_js(){
                 
               }
               
-              // Inyectar y rellenar el camp_id y source_referer
+              // Inyectar y rellenar el camp_id y source_referer y promo_id
               var camp_id = sm_get_camp_id();
               
               if(camp_id != ''){
@@ -179,13 +179,29 @@ function track_click_js(){
                     if( jQuery(this).find('input[name=source_referer]').length > 0 ){
                       jQuery(this).find('input[name=source_referer]').val(source_referer)
                     } else {
-                      console.log("entra")
                       var new_imp = jQuery('<input>').attr('type','hidden').attr('name', 'source_referer').val(source_referer)
                       jQuery(this).append(new_imp);
                     }
                   })
                 <?php } ?>
               }
+              
+              var promo = "<?php echo $promo ?>";
+              
+              if(promo != ''){
+                
+                <?php foreach(sm_available_domains() as $av_dom){ ?>
+                  jQuery('form[action*="<?php echo $av_dom ?>"]').each(function(indx){
+                    if( jQuery(this).find('input[name=promo_nicename]').length > 0 ){
+                      jQuery(this).find('input[name=promo_nicename]').val(promo)
+                    } else {
+                      var new_imp = jQuery('<input>').attr('type','hidden').attr('name', 'promo_nicename').val(promo)
+                      jQuery(this).append(new_imp);
+                    }
+                  })
+                <?php } ?>
+              }
+              
 
           });
 
