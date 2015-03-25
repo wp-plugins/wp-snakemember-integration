@@ -47,7 +47,7 @@ function save_cookies(){
       setcookie("snakem_camp_id",$new_camp_id,time()+60*60*24*360,$domain_path,$domain_host);
     }
     
-    if( $new_source_referer != ''){
+    if( (!$old_source_referer || $old_source_referer == '') && $new_source_referer != ''){
       setcookie("snakem_source_referer",$new_source_referer,0,$domain_path,$domain_host);      
     }
     
@@ -84,16 +84,18 @@ function get_aff_id($default = "CG00001"){
 }
 
 function get_source_referer($default = ""){
-    $source_referer = $_SERVER['HTTP_REFERER'];
-    if ($source_referer != ""){
-        return $source_referer;
-    }
-    $source_referer = $_COOKIE["snakem_source_referer"];
-    if ($source_referer != ""){
-        return $source_referer;
-    }
+  
+  $source_referer = $_COOKIE["snakem_source_referer"];
+  if ($source_referer != ""){
+      return $source_referer;
+  }
+  
+  $source_referer = $_SERVER['HTTP_REFERER'];
+  if ($source_referer != ""){
+      return $source_referer;
+  }
 
-    return $default;
+  return $default;
 
 }
 
