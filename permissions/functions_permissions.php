@@ -142,3 +142,54 @@ function wp_sm_no_protection(){
     return false;
   }
 }
+
+/**
+  @brief Remove protected elements from loops if user has no permisson
+**/
+add_filter('get_pages', 'wp_sm_remove_nonallowed_pages');
+function wp_sm_remove_nonallowed_pages($pages){
+  global $user_ID;
+  global $userdata;
+  get_currentuserinfo();
+
+  if(current_user_can('manage_options') || wp_sm_no_protection()){
+    return $pages;
+  }
+
+  if (count($pages)>1){
+
+      $pages_ret = array();
+      foreach ($pages as $p){
+        if(wp_sm_user_has_access($p->ID, 'page', $user_ID)){
+          $pages_ret[] = $p;
+        }
+      }
+      return $pages_ret;
+  }
+  else {
+      return $pages;
+  }      
+}
+
+/**
+  @brief Remove protected elements from menus if user has no permission
+**/
+add_filter( 'wp_get_nav_menu_items', 'wp_sm_exclude_menu_items', null, 3 );
+function wp_sm_exclude_menu_items( $items, $menu, $args ) {
+  global $user_ID;
+  global $userdata;
+  get_currentuserinfo();
+  
+  if(current_user_can('manage_options') || wp_sm_no_protection()){
+    return $items;
+  }
+  
+  // Iterate over the items to search and destroy
+  foreach ( $items as $key => $item ) {
+    if ( !wp_sm_user_has_access($item->object_id, 'page', $user_ID) ) unset( $items[$key] );
+  }
+
+  return $items;
+}
+
+
