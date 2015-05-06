@@ -114,6 +114,22 @@ function sm_wp_protect_object($args){
   update_post_meta($object_id, "wp_sm_protected", "1");
 }
 
+function sm_wp_unprotect_object($args){
+  global $wp_xmlrpc_server;
+  $wp_xmlrpc_server->escape( $args );
+
+  $username = $args[0];
+  $password = $args[1];
+  
+  $object_id = $args[2];
+  $object_class = $args[3];
+
+  if ( ! $user = $wp_xmlrpc_server->login( $username, $password ) )
+    return array("error" => "Invalid credentials");
+  
+  delete_post_meta($object_id, "wp_sm_protected");
+}
+
 function sm_wp_db_tables(){
   global $wpdb, $wp_sm_db_version;
 
