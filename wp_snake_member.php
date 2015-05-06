@@ -5,7 +5,7 @@ Plugin URI: http://snakemember.com/
 Description: Wordpress integration plugin for SnakeMember
 Author: Michele Cumer
 Author URI: http://www.snakemember.com
-Version: 1.6
+Version: 1.6.1
 */
 
 // WP Activerecord
@@ -32,7 +32,7 @@ function sm_wp_activerecord_init(){
     });
 }
 
-add_action("init", "sm_wp_activerecord_init");
+add_action("init", "sm_wp_activerecord_init", 5);
 
 /* END - LOAD ActiveRecord */
 
@@ -88,17 +88,17 @@ add_filter('the_content', 'wp_sm_filter_protected_pages');
 add_filter('template_redirect', 'wp_sm_filter_protected_pages_redirect', 1);
 
 # Register "wp_sm_autolog" URL
-add_action( 'init', 'wp_sm_autolog_init' );
+add_action( 'init', 'wp_sm_autolog_init', 12 );
 add_action( 'query_vars', 'wp_sm_autolog_query_vars' );
 add_action( 'parse_request', 'wp_sm_autolog_parse_request' );
 
 # Register "wp_sm_secure_download" URL
-add_action( 'init', 'wp_sm_secure_downloads_init' );
+add_action( 'init', 'wp_sm_secure_downloads_init', 12 );
 add_action( 'query_vars', 'wp_sm_secure_downloads_query_vars' );
 add_action( 'parse_request', 'wp_sm_secure_downloads_parse_request' );
 
 # Affiliate ID Management
-add_action('init', 'track_affiliate');
+add_action('init', 'track_affiliate', 12);
 
 function wp_sm_flush_rewrite() {
   wp_sm_autolog_init();
