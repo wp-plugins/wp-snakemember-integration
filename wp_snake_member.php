@@ -5,7 +5,7 @@ Plugin URI: http://snakemember.com/
 Description: Wordpress integration plugin for SnakeMember
 Author: Michele Cumer
 Author URI: http://www.snakemember.com
-Version: 1.6.1
+Version: 1.7
 */
 
 // WP Activerecord
@@ -24,6 +24,9 @@ require_once realpath(dirname(__FILE__)) . "/area_adm/view.php";
 require_once realpath(dirname(__FILE__)) . "/area_adm/ajax.php";
 // Secure downloads
 require_once realpath(dirname(__FILE__)) . "/secure_downloads/functions.php";
+
+// OTOs
+require_once realpath(dirname(__FILE__)) . "/otos/functions.php";
 
 function sm_wp_activerecord_init(){
     ActiveRecord\Config::initialize(function($cfg)
