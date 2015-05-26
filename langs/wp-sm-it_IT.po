@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Snakemember\n"
-"POT-Creation-Date: 2014-11-24 16:02+0100\n"
-"PO-Revision-Date: 2014-11-24 16:02+0100\n"
+"POT-Creation-Date: 2015-02-25 18:48+0100\n"
+"PO-Revision-Date: 2015-02-25 18:50+0100\n"
 "Last-Translator: Rubén Trujillo <rubentrf@gmail.com>\n"
 "Language-Team: Innova Experience <info@snakemember.com>\n"
 "Language: it_IT\n"
@@ -17,67 +17,106 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../admin/main_options_view.php:5
+#: ../area_adm/main_options_view.php:5
 msgid "WP Snakemember | Global Options"
 msgstr ""
 
-#: ../admin/main_options_view.php:13
+#: ../area_adm/main_options_view.php:13
 msgid "API User"
 msgstr ""
 
-#: ../admin/main_options_view.php:17
+#: ../area_adm/main_options_view.php:17
 msgid "This is the API user of your main business"
 msgstr ""
 
-#: ../admin/main_options_view.php:23
+#: ../area_adm/main_options_view.php:23
 msgid "API Key"
 msgstr ""
 
-#: ../admin/main_options_view.php:27
+#: ../area_adm/main_options_view.php:27
 msgid "This is the API key of your main business"
 msgstr ""
 
-#: ../admin/main_options_view.php:38
+#: ../area_adm/main_options_view.php:38
 msgid "Load items from SnakeMember"
 msgstr ""
 
-#: ../admin/main_options_view.php:45
+#: ../area_adm/main_options_view.php:45
 msgid "Product"
 msgstr ""
 
-#: ../admin/main_options_view.php:49
+#: ../area_adm/main_options_view.php:49
 msgid "Click \"Load items...\" above to display products"
 msgstr ""
 
-#: ../admin/main_options_view.php:57
+#: ../area_adm/main_options_view.php:57
 msgid "Affiliate Promo"
 msgstr ""
 
-#: ../admin/main_options_view.php:61
+#: ../area_adm/main_options_view.php:61
 msgid "Click \"Load items...\" above to display promos"
 msgstr ""
 
-#: ../admin/main_options_view.php:63
+#: ../area_adm/main_options_view.php:63
 msgid "This promo will be used to track the affiliate optins"
 msgstr ""
 
-#: ../admin/main_options_view.php:70
+#: ../area_adm/main_options_view.php:70
 msgid "Amazon S3 Account Credentials"
 msgstr ""
 
-#: ../admin/main_options_view.php:77
+#: ../area_adm/main_options_view.php:77
 msgid "S3 API Key"
 msgstr ""
 
-#: ../admin/main_options_view.php:86
+#: ../area_adm/main_options_view.php:86
 msgid "S3 API Secret"
 msgstr ""
 
-#: ../admin/main_options_view.php:95
+#: ../area_adm/main_options_view.php:95
 #, php-format
 msgid ""
 "If you've any doubts, check the <a href=\"%s\" target=\"_blank\">Amazon S3 "
 "FAQs</a>"
+msgstr ""
+
+#: ../area_adm/main_options_view.php:102
+msgid "Content protection mode"
+msgstr ""
+
+#: ../area_adm/main_options_view.php:108
+msgid "Protection mode"
+msgstr ""
+
+#: ../area_adm/main_options_view.php:112
+msgid "Disable protection"
+msgstr ""
+
+#: ../area_adm/main_options_view.php:113
+msgid "Use content filtering protection"
+msgstr ""
+
+#: ../area_adm/main_options_view.php:114
+msgid "Use redirect protection"
+msgstr ""
+
+#: ../area_adm/main_options_view.php:116
+msgid "Users with no permission will be redirected to this URL"
+msgstr ""
+
+#: ../campaigns/integrations/optin_monster.php:28
+#, php-format
+msgid ""
+"First, make sure you have your SnakeMember credentials correctly configured "
+"<a href=\"%s\">here</a>"
+msgstr ""
+
+#: ../campaigns/integrations/optin_monster_provider.php:66
+msgid "SnakeMember Account"
+msgstr ""
+
+#: ../campaigns/integrations/optin_monster_provider.php:140
+msgid "Email provider list"
 msgstr ""
 
 #: ../campaigns/widget.php:7
@@ -88,60 +127,48 @@ msgstr ""
 msgid "SnakeMember Campaigns Form"
 msgstr ""
 
-#: ../campaigns/widget.php:123
+#: ../campaigns/widget.php:130
 msgid "Il widget visualizza il form SnakeMember"
 msgstr ""
 
-#: ../campaigns/widget.php:126
+#: ../campaigns/widget.php:133
 msgid "Copy del Form: ( incolla qui il tuo codice html ) "
 msgstr ""
 
-#: ../campaigns/widget.php:131
-msgid "SnakeMember URI: "
-msgstr ""
-
-#: ../campaigns/widget.php:134
-msgid "API User: "
-msgstr ""
-
-#: ../campaigns/widget.php:137
-msgid "API Key: "
-msgstr ""
-
-#: ../campaigns/widget.php:139
+#: ../campaigns/widget.php:136
 msgid "Carica liste"
 msgstr ""
 
-#: ../campaigns/widget.php:142
+#: ../campaigns/widget.php:139
 msgid "Nome lista: "
 msgstr ""
 
-#: ../campaigns/widget.php:144
-msgid "Press the load button"
+#: ../campaigns/widget.php:141
+msgid "Loading..."
 msgstr ""
 
-#: ../campaigns/widget.php:150
+#: ../campaigns/widget.php:147
 msgid "Redirect: "
 msgstr ""
 
-#: ../campaigns/widget.php:153
+#: ../campaigns/widget.php:150
 msgid "Redirect (on list): "
 msgstr ""
 
-#: ../campaigns/widget.php:157
+#: ../campaigns/widget.php:154
 msgid "Campi del form: "
 msgstr ""
 
-#: ../campaigns/widget.php:172
+#: ../campaigns/widget.php:169
 msgid "Testo Bottone: "
 msgstr ""
 
-#: ../campaigns/widget.php:176
+#: ../campaigns/widget.php:173
 msgid ""
 "Vuoi attivare una checkbox per accettare la normativa sulla privacy? Devi "
 "aver creato una pagina privacy. (facoltativo)"
 msgstr ""
 
-#: ../campaigns/widget.php:179
+#: ../campaigns/widget.php:176
 msgid "Informativa sulla privacy (facoltativo): "
 msgstr ""

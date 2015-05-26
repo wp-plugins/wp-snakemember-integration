@@ -5,7 +5,7 @@ Plugin URI: http://snakemember.com/
 Description: Wordpress integration plugin for SnakeMember
 Author: Michele Cumer
 Author URI: http://www.snakemember.com
-Version: 1.1
+Version: 1.7
 */
 
 // WP Activerecord
@@ -20,10 +20,13 @@ require_once realpath(dirname(__FILE__)) . "/campaigns/campaigns.php";
 require_once realpath(dirname(__FILE__)) . "/xmlrpc/functions.php";
 require_once realpath(dirname(__FILE__)) . "/permissions/functions_permissions.php";
 // Admin area
-require_once realpath(dirname(__FILE__)) . "/admin_area/view.php";
-require_once realpath(dirname(__FILE__)) . "/admin_area/ajax.php";
+require_once realpath(dirname(__FILE__)) . "/area_adm/view.php";
+require_once realpath(dirname(__FILE__)) . "/area_adm/ajax.php";
 // Secure downloads
 require_once realpath(dirname(__FILE__)) . "/secure_downloads/functions.php";
+
+// OTOs
+require_once realpath(dirname(__FILE__)) . "/otos/functions.php";
 
 function sm_wp_activerecord_init(){
     ActiveRecord\Config::initialize(function($cfg)
@@ -32,7 +35,7 @@ function sm_wp_activerecord_init(){
     });
 }
 
-add_action("init", "sm_wp_activerecord_init");
+add_action("init", "sm_wp_activerecord_init", 5);
 
 /* END - LOAD ActiveRecord */
 
@@ -73,6 +76,7 @@ function sm_wp_xmlrpc_methods( $methods ) {
     $methods['SM.get_session'] = 'sm_wp_get_session';
     $methods['SM.create_user_with_access'] = 'sm_wp_create_user_with_access';
     $methods['SM.protect_object'] = 'sm_wp_protect_object';
+    $methods['SM.unprotect_object'] = 'sm_wp_unprotect_object';
     $methods['SM.ping'] = 'sm_wp_ping';
     return $methods;   
 }
@@ -84,16 +88,20 @@ add_filter( 'manage_pages_columns', 'wp_sm_modify_pages_table' );
 add_action( 'manage_pages_custom_column', 'wp_sm_modify_pages_table_row', 10, 2 );
 
 add_filter('the_content', 'wp_sm_filter_protected_pages');
+add_filter('template_redirect', 'wp_sm_filter_protected_pages_redirect', 1);
 
 # Register "wp_sm_autolog" URL
-add_action( 'init', 'wp_sm_autolog_init' );
+add_action( 'init', 'wp_sm_autolog_init', 12 );
 add_action( 'query_vars', 'wp_sm_autolog_query_vars' );
 add_action( 'parse_request', 'wp_sm_autolog_parse_request' );
 
 # Register "wp_sm_secure_download" URL
-add_action( 'init', 'wp_sm_secure_downloads_init' );
+add_action( 'init', 'wp_sm_secure_downloads_init', 12 );
 add_action( 'query_vars', 'wp_sm_secure_downloads_query_vars' );
 add_action( 'parse_request', 'wp_sm_secure_downloads_parse_request' );
+
+# Affiliate ID Management
+add_action('init', 'track_affiliate', 12);
 
 function wp_sm_flush_rewrite() {
   wp_sm_autolog_init();
@@ -102,4 +110,9 @@ function wp_sm_flush_rewrite() {
 }
 
 register_activation_hook( __FILE__, 'wp_sm_flush_rewrite' );
+
+# Protected download tags
+add_shortcode( 's3_secure_download', 'wp_sm_secure_s3_link' );
+#add_shortcode( 'sm_s3_secure_video', 'wp_sm_secure_s3_video' );
+
 
