@@ -21,6 +21,10 @@ function wp_sm_modify_pages_table_row( $column_name, $page_id ) {
 function wp_sm_object_is_protected($object_id, $object_class){
   $protected = false;
   
+  if(wp_sm_no_protection()){
+    return false;
+  }
+  
   switch ($object_class) {
       case 'page' :
         $protected = get_post_meta($object_id, "wp_sm_protected", true);
@@ -34,7 +38,7 @@ function wp_sm_object_is_protected($object_id, $object_class){
 }
 
 function wp_sm_user_has_access($object_id, $object_class, $user_id){
-  if(!wp_sm_object_is_protected($object_id, $object_class) || current_user_can('manage_options')){
+  if(!wp_sm_object_is_protected($object_id, $object_class) || current_user_can('manage_options') || wp_sm_no_protection()){
     return true;
   } else {
     
@@ -53,16 +57,31 @@ function wp_sm_user_has_access($object_id, $object_class, $user_id){
 function wp_sm_filter_protected_pages($content){
   global $wpdb, $current_user, $post;
   get_currentuserinfo();
-
-  $user_id = $current_user->id;
-
-  if(! wp_sm_user_has_access($post->ID, 'page', $user_id)){
-    $content = "Non hai accesso a questo contenuto";
-    remove_filter('the_content', 'wp_sm_filter_protected_pages');
-    add_filter('the_content', 'wp_sm_void_filter_protected_pages');
-  }
   
-  return $content;
+  if(!wp_sm_prot_use_redirect() && !wp_sm_no_protection()){
+    $user_id = $current_user->id;
+
+    if(! wp_sm_user_has_access($post->ID, 'page', $user_id)){
+      $content = "Non hai accesso a questo contenuto";
+      remove_filter('the_content', 'wp_sm_filter_protected_pages');
+      add_filter('the_content', 'wp_sm_void_filter_protected_pages');
+    }
+  } 
+  
+  return do_shortcode($content);
+}
+
+function wp_sm_filter_protected_pages_redirect($args){
+  global $wpdb, $current_user, $post;
+  get_currentuserinfo();
+  
+  if($redir_url = wp_sm_prot_use_redirect()){
+    $user_id = $current_user->ID;
+
+    if(! wp_sm_user_has_access($post->ID, 'page', $user_id)){
+      wp_redirect( $redir_url ); exit;
+    }
+  }
   
 }
 
@@ -94,3 +113,83 @@ function wp_sm_autolog_parse_request( &$wp )
         exit();
     }
 }
+
+/** 
+  @brief Check if is selected the protected redirect instead of content filtering
+  @returns false: if content filtering
+           the redirect URL: if redirect protection 
+**/
+function wp_sm_prot_use_redirect(){
+  $redir_option = get_option('sm_prot_redir');
+  $redir_option_url = get_option('sm_prot_redir_url');
+  
+  if(! wp_sm_no_protection() && $redir_option && $redir_option_url && $redir_option_url != ''){
+    return $redir_option_url;
+  } else {
+    return false;
+  }
+}
+
+/**
+  @brief Check if !protection is selected
+**/
+function wp_sm_no_protection(){
+  $redir_option = get_option('sm_prot_redir');
+  
+  if($redir_option == -1){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
+  @brief Remove protected elements from loops if user has no permisson
+**/
+add_filter('get_pages', 'wp_sm_remove_nonallowed_pages');
+function wp_sm_remove_nonallowed_pages($pages){
+  global $user_ID;
+  global $userdata;
+  get_currentuserinfo();
+
+  if(current_user_can('manage_options') || wp_sm_no_protection()){
+    return $pages;
+  }
+
+  if (count($pages)>1){
+
+      $pages_ret = array();
+      foreach ($pages as $p){
+        if(wp_sm_user_has_access($p->ID, 'page', $user_ID)){
+          $pages_ret[] = $p;
+        }
+      }
+      return $pages_ret;
+  }
+  else {
+      return $pages;
+  }      
+}
+
+/**
+  @brief Remove protected elements from menus if user has no permission
+**/
+add_filter( 'wp_get_nav_menu_items', 'wp_sm_exclude_menu_items', null, 3 );
+function wp_sm_exclude_menu_items( $items, $menu, $args ) {
+  global $user_ID;
+  global $userdata;
+  get_currentuserinfo();
+  
+  if(current_user_can('manage_options') || wp_sm_no_protection()){
+    return $items;
+  }
+  
+  // Iterate over the items to search and destroy
+  foreach ( $items as $key => $item ) {
+    if ( !wp_sm_user_has_access($item->object_id, 'page', $user_ID) ) unset( $items[$key] );
+  }
+
+  return $items;
+}
+
+
