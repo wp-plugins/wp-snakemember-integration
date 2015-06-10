@@ -32,8 +32,14 @@ add_action( 'parse_request', 'wp_sm_oto_order_parse_request' );
 
 // Shortcode for remote order URL
 function wp_sm_oto_order_sttag( $atts ) {
+  $order_code = '';
+  if(isset($_REQUEST['order_code'])){
+    $order_code = $_REQUEST['order_code'];
+  } else if(isset($_REQUEST['secret_code'])) {
+    $order_code = $_REQUEST['secret_code'];
+  }
   
-  return home_url().'/index.php?wp_sm_oto=true&wp_sm_oto_parent_order_code='.$_REQUEST['order_code'];
+  return home_url().'/index.php?wp_sm_oto=true&wp_sm_oto_parent_order_code='.$order_code;
   
 }
 add_shortcode( 'wp_sm_oto_order', 'wp_sm_oto_order_sttag' );
@@ -72,8 +78,14 @@ add_action( 'parse_request', 'wp_sm_oto_no_thanks_parse_request' );
 
 // Shortcode for remote order URL
 function wp_sm_oto_no_thanks_sttag( $atts ) {
+  $order_code = '';
+  if(isset($_REQUEST['order_code'])){
+    $order_code = $_REQUEST['order_code'];
+  } else if(isset($_REQUEST['secret_code'])) {
+    $order_code = $_REQUEST['secret_code'];
+  }
   
-  return home_url().'/index.php?wp_sm_oto_no_thanks=true&wp_sm_oto_parent_order_code='.$_REQUEST['order_code'];
+  return home_url().'/index.php?wp_sm_oto_no_thanks=true&wp_sm_oto_parent_order_code='.$order_code;
   
 }
 add_shortcode( 'wp_sm_oto_no_thanks', 'wp_sm_oto_no_thanks_sttag' );
